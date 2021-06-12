@@ -1,29 +1,26 @@
 package ua.pp.kris.exemple;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class CopyFile {
 
         public static void main(String[] args) throws IOException {
-            int i;
+            String i;
 
             if(args.length != 2) {
                 System.out.println("copying . . .");
                 return;
             }
 
-            try ( FileInputStream fin = new FileInputStream(args[0]);
-                  FileOutputStream fout = new FileOutputStream(args[1])) {
-                do{
-                    i = fin.read();
-                    if(i != -1) {
-                        if (i == 32) {
-                            fout.write(45);
-                        } else fout.write(i);
+            try (BufferedReader br = new BufferedReader(new FileReader(args[0]));
+            FileWriter fw = new FileWriter(args[1]))
+            {
+                do {
+                    i = br.readLine();
+                    if(i != null) {
+                        fw.write(i.replace(' ', '-'));
                     }
-                } while (i != -1);
+                } while (i != null);
             } catch (IOException exc) {
                 System.out.println(exc);
             }
